@@ -1,0 +1,20 @@
+# Ignore all files once.
+/*
+
+# In addition, Ignore configuration files starting with the dot.
+/.*
+
+# Managed files list 
+# Managed files are specified as "![file name]" below.
+!/.gitignore
+!/.aliases
+!/.aliases.*
+!/.bashrc
+!/.bashrc.*
+!/.vimrc
+!/.vimrc.*
+!/.tmux.conf
+!/.tmux.conf.*
+!/install.sh
+!/*.md
+!/LICENSE
