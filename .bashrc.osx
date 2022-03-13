@@ -1,0 +1,17 @@
+# .bashrc.osx
+#----------------------------------------------------------------------------------------------
+#
+#   Author: ma-kappa
+#   Description: Specific definition for MacOSX
+#
+#----------------------------------------------------------------------------------------------
+
+# Bump the maximum number of file descriptors you can have open
+ulimit -n 10240
+
+# OS X COMMANDS
+# Homebrew
+# Set our Homebrew Cask application directory
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
+# Aliases

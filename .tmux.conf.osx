@@ -1,0 +1,16 @@
+# .tmux.conf.osx
+#----------------------------------------------------------------------------------------------
+#
+#   Author: ma-kappa
+#   Description: Configuration file for tmux (Mac OSX specific).
+#
+#----------------------------------------------------------------------------------------------
+
+# Clipboard Settings
+# Start selection
+bind-key -T copy-mode-vi v send-keys -X begin-selection
+# Yank
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
+# paste
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
+

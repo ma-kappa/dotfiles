@@ -1,0 +1,71 @@
+# .bashrc.git
+#----------------------------------------------------------------------------------------------
+#
+#   Author: ma-kappa
+#   Description: Collection of aliases for Git commands.
+#
+#----------------------------------------------------------------------------------------------
+
+# Get Git branch of current directory
+git_branch () {
+    if git rev-parse --git-dir >/dev/null 2>&1
+        then echo -e "" git:\($(git branch 2>/dev/null| sed -n '/^\*/s/^\* //p')\)
+    else
+        echo ""
+    fi
+}
+
+# Set a specific color for the status of the Git repo
+git_color() {
+    local STATUS=`git status 2>&1`
+    if [[ "$STATUS" == *'Not a git repository'* ]]
+        then echo "" # nothing
+    else
+        if [[ "$STATUS" != *'working tree clean'* ]]
+            then echo -e '\033[0;31m' # red if need to commit
+        else
+            if [[ "$STATUS" == *'Your branch is ahead'* ]]
+                then echo -e '\033[0;33m' # yellow if need to push
+            else
+                echo -e '\033[0;32m' # else green
+            fi
+        fi
+    fi
+}
+
+# Load Git-Prompt and Git-Completion
+if [ -f /usr/local/etc/bash_completion.d/git-prompt.sh ]; then
+    #Display various information at prompt.
+    GIT_PS1_SHOWDIRTYSTATE=1
+    GIT_PS1_SHOWUPSTREAM=1
+    GIT_PS1_SHOWUNTRACKEDFILES=
+    GIT_PS1_SHOWSTASHSTATE=1
+    source /usr/local/etc/bash_completion.d/git-prompt.sh
+    export USE_GIT_PROMPT=1
+fi
+if [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
+    source /usr/local/etc/bash_completion.d/git-completion.bash
+    export USE_GIT_COMPLETION=1
+fi
+
+# Git shortcuts
+alias gits='git status -s'
+alias gitf='git fetch'
+alias gitpl='git pull'
+alias gitamend='git commit --amend'
+alias gitundo='git reset --soft HEAD~1'
+alias gitlog="git log --graph --abbrev-commit --decorate --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)'"
+alias gitlog-changes="git log --oneline --decorate --stat --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)'"
+gitreset() {
+    while true; do
+        read -ep 'Reset HEAD? [y/N] ' response
+        case $response in
+            [Yy]* )
+                bash -c 'git reset --hard HEAD'
+                break;;
+            * )
+                echo 'Skipped reseting the HEAD...'
+                break;;
+        esac
+    done
+}
